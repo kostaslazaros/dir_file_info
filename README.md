@@ -5,7 +5,7 @@ To do list:
 - [X] Print starting path
 - [X] Print depth number
 - [X] Total number of files, total number of directories
-- [ ] Total Disk occupation
+- [X] Total Disk occupation
 - [ ] Percentage of file permissions (sorted by biggest)
 - [ ] Print all Large files
 - [ ] Print lastly created files
