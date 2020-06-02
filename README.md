@@ -2,9 +2,9 @@
 A bash script for getting information on directories and files
 
 To do list:
-- [ ] Print starting path
-- [ ] Print depth number
-- [ ] Total number of files, total number of directories
+- [X] Print starting path
+- [X] Print depth number
+- [X] Total number of files, total number of directories
 - [ ] Total Disk occupation
 - [ ] Percentage of file permissions (sorted by biggest)
 - [ ] Print all Large files
