@@ -16,6 +16,7 @@ echo " "
 shopt -s globstar
 FILENO=0
 DIRNO=0
+MY_ARRAY=()
 
 while read file; do
     #echo  "${file}"
@@ -26,7 +27,8 @@ while read file; do
 
     else
         FILENO=$(( $FILENO + 1 ))
-        stat -c "%a" "${file}"
+        index=$(stat -c "%a " "${file}")
+        MY_ARRAY[${index}]=$(( MY_ARRAY[${index}] + 1 ))
         # du -h ${file}
     fi
     # du -h ${file}
@@ -65,6 +67,11 @@ echo " "
 
 
 echo "Largest dirs"
-echo " "
 
 bash tree2.sh $1 $(( $2 - 1 ))
+
+for i in "${!MY_ARRAY[@]}"; do
+    printf "%s\t%s\n" "$i" "$(( ${MY_ARRAY[$i]} * 100 / ${FILENO} ))%"
+    # printf "%s\t%s\n" "$i" "${MY_ARRAY[$i]}"
+done
+
