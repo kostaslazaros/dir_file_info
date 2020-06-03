@@ -10,5 +10,5 @@ To do list:
 - [X] Print all Large files
 - [X] Print lastly created files
 - [X] Print lastly modified files (as well as date of modification)
-- [ ] Print directories with more files (as well as number of files in each dir)
+- [X] Print directories with more files (as well as number of files in each dir)
 - [X] Print largest directories (as well as size in MB)
