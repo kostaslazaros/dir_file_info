@@ -3,15 +3,6 @@
 echo "Monitored directory:" $1
 echo "Depth:" $2
 echo " "
-#if [ -d "$1" ]; then #checks if the parameter is a directory
-#   echo "Number of directories: $(find "$1" -type d | wc -l)"
-#  echo "Number of files: $(find "$1" -type f | wc -l)"
-
-
-#else
-#   echo
-
-#fi
 
 shopt -s globstar
 FILENO=0
@@ -61,17 +52,17 @@ done
 
 echo " "
 echo "Large files"
-echo "$(find $1 -maxdepth $2 -type f -printf '%s %p\n' | sort -nr | head -5)"
+echo "$(find $1 -maxdepth $2 -type f -printf '%s %P\n' | sort -nr | head -5)"
 echo " "
 
 
 echo "Lastly created files"
-echo "$( find $1 -maxdepth $2 -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS\t%h/%f\n" | sort -r | head -n 5)"
+echo "$( find $1 -maxdepth $2 -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS\t%P\n" | sort -r | head -n 5)"
 echo " "
 
 
 echo "Lastly modified files"
-echo "$(find $1 -maxdepth $2 -type f -not -path '*/\.*' -printf '%TY.%Tm.%Td %THh%TM %Ta %p\n' |sort -nr |head -n 5)"
+echo "$(find $1 -maxdepth $2 -type f -not -path '*/\.*' -printf '%TY.%Tm.%Td %THh%TM %Ta %P\n' |sort -nr |head -n 5)"
 echo " "
 
 
