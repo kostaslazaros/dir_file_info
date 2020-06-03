@@ -4,6 +4,8 @@ echo "Monitored directory:" $1
 echo "Depth:" $2
 echo " "
 
+tabs 12
+
 shopt -s globstar
 FILENO=0
 DIRNO=0
@@ -45,16 +47,22 @@ echo " "
 #bash tree2.sh $1 $(( $2 - 1 ))
 
 for i in "${!MY_ARRAY[@]}"; do
-    printf "%s\t%s\n" "$i" "$(( ${MY_ARRAY[$i]} * 100 / ${FILENO} ))%"
+    percentage=$(( ${MY_ARRAY[$i]} * 100 / ${FILENO} ))
+    if [ ${percentage} -eq 0 ]; then
+        percentage=1
+    fi
+    # printf "%s\t%s\n" "$i" "$(( ${MY_ARRAY[$i]} * 100 / ${FILENO} ))%"
+    printf "%s\t%s\n" "$i" "${percentage}%"
 
     # printf "%s\t%s\n" "$i" "${MY_ARRAY[$i]}"
 done
 
 echo " "
 echo "Large files"
-echo "$(find $1 -maxdepth $2 -type f -printf '%s %P\n' | sort -nr | head -5)"
+echo "$(find $1 -maxdepth $2 -type f -printf '%s\t%P\n' | sort -nr | head -5)"
 echo " "
 
+tabs 8
 
 echo "Lastly created files"
 echo "$( find $1 -maxdepth $2 -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS\t%P\n" | sort -r | head -n 5)"
