@@ -83,4 +83,6 @@ echo " "
 
 
 echo "Largest dirs"
+echo "$(du -S -d $2 $1 | sort -nr| head -5)"
+
 
