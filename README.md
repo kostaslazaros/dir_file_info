@@ -6,7 +6,7 @@ To do list:
 - [X] Print depth number
 - [X] Total number of files, total number of directories
 - [X] Total Disk occupation
-- [Χ] Percentage of file permissions (sorted by biggest)
+- [X] Percentage of file permissions (sorted by biggest)
 - [X] Print all Large files
 - [X] Print lastly created files
 - [X] Print lastly modified files (as well as date of modification)
