@@ -46,15 +46,32 @@ echo "Permissions on files"
 echo " "
 
 
+# echo "Large files $(find $1 -type f -printf '%s %p\n' | sort -nr | head -5)"
+# echo " "
+
+
+
+#bash tree2.sh $1 $(( $2 - 1 ))
+
+for i in "${!MY_ARRAY[@]}"; do
+    printf "%s\t%s\n" "$i" "$(( ${MY_ARRAY[$i]} * 100 / ${FILENO} ))%"
+
+    # printf "%s\t%s\n" "$i" "${MY_ARRAY[$i]}"
+done
+
+echo " "
 echo "Large files"
+echo "$(find $1 -maxdepth $2 -type f -printf '%s %p\n' | sort -nr | head -5)"
 echo " "
 
 
 echo "Lastly created files"
+echo "$( find $1 -maxdepth $2 -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS\t%h/%f\n" | sort -r | head -n 5)"
 echo " "
 
 
 echo "Lastly modified files"
+echo "$(find $1 -maxdepth $2 -type f -not -path '*/\.*' -printf '%TY.%Tm.%Td %THh%TM %Ta %p\n' |sort -nr |head -n 5)"
 echo " "
 
 
@@ -67,11 +84,4 @@ echo " "
 
 
 echo "Largest dirs"
-
-bash tree2.sh $1 $(( $2 - 1 ))
-
-for i in "${!MY_ARRAY[@]}"; do
-    printf "%s\t%s\n" "$i" "$(( ${MY_ARRAY[$i]} * 100 / ${FILENO} ))%"
-    # printf "%s\t%s\n" "$i" "${MY_ARRAY[$i]}"
-done
 

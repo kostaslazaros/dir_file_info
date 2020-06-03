@@ -1,5 +1,9 @@
 #!/bin/bash
 
+FILENO=0
+DIRNO=0
+
+
 if [ "$#" -eq 0 ]; then
     startdir="$HOME"
     depth=1000000
