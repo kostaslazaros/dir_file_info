@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Monitored directory:" $1
 echo "Depth:" $2
