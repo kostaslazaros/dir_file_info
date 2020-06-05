@@ -1,0 +1,4 @@
+#!/bin/bash
+find $1 -maxdepth $2 -mindepth 1 -type d | while read dir; do
+  printf "%s \t %s\n" "$(find "$dir" -maxdepth 1 -mindepth 1 -type d | wc -l)" "$dir"
+done

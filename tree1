@@ -86,5 +86,9 @@ echo "Dirs with more files"
 bash count_files ${startdir} ${depth} | sort -nr | head -5
 echo " "
 
+echo "Dirs with more dirs"
+bash count_dirs ${startdir} ${depth} | sort -nr | head -5
+echo " "
+
 echo "Largest dirs"
 echo "$(du -S -d ${depth} ${startdir} | sort -nr| head -5)"
