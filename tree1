@@ -86,12 +86,36 @@ echo " "
 
 tabs 4
 
+# echo "Dirs with more files"
+# bash count_files ${startdir} ${depth} | sort -nr | nl | head -5
+# echo " "
+
+# echo "Dirs with more dirs"
+# bash count_dirs ${startdir} ${depth} | sort -nr | nl | head -5
+# echo " "
+
+function dirs_with_more_files () {
+
+    printf "%s \t %s\n" "$(find "$1" -maxdepth 1  -type f | wc -l)" "$1"
+
+    find $1 -maxdepth $2 -mindepth 1 -type d | while read dir; do
+        printf "%s \t %s\n" "$(find "$dir" -maxdepth 1  -type f | wc -l)" "$dir"
+    done
+}
+
 echo "Dirs with more files"
-bash count_files ${startdir} ${depth} | sort -nr | nl | head -5
+dirs_with_more_files ${startdir} ${depth} | sort -nr | nl | head -5
 echo " "
 
+function dirs_with_more_dirs {
+
+    find $1 -maxdepth $2 -mindepth 1 -type d | while read dir; do
+         printf "%s \t %s\n" "$(find "$dir" -maxdepth 1 -mindepth 1 -type d | wc -l)" "$dir"
+    done
+}
+
 echo "Dirs with more dirs"
-bash count_dirs ${startdir} ${depth} | sort -nr | nl | head -5
+dirs_with_more_dirs ${startdir} ${depth} | sort -nr | nl | head -5
 echo " "
 
 tabs 8
