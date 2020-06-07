@@ -26,21 +26,13 @@ DIRNO=0
 MY_ARRAY=()
 
 while read file; do
-    #echo  "${file}"
-    #echo "${found}"
     if [ -d "${file}" ]; then
         DIRNO=$(( $DIRNO + 1 ))
-	#echo "${DIRNO}"
-
     else
         FILENO=$(( $FILENO + 1 ))
         index=$(stat -c "%a " "${file}")
         MY_ARRAY[${index}]=$(( MY_ARRAY[${index}] + 1 ))
-        # du -h ${file}
     fi
-    # du -h ${file}
-
-
 done <<<$(find ${startdir} -maxdepth ${depth} -name "*")
 
 echo "Number of directories: ${DIRNO}"
@@ -52,28 +44,23 @@ echo "Permissions on files"
 echo " "
 
 tabs 2
-# echo "Large files $(find $1 -type f -printf '%s %p\n' | sort -nr | head -5)"
-# echo " "
 
-#bash tree2.sh $1 $(( $2 - 1 ))
 
 for i in "${!MY_ARRAY[@]}"; do
     percentage=$(( ${MY_ARRAY[$i]} * 100 / ${FILENO} ))
     if [ ${percentage} -eq 0 ]; then
         percentage=1
     fi
-    # printf "%s\t%s\n" "$i" "$(( ${MY_ARRAY[$i]} * 100 / ${FILENO} ))%"
     printf "%s\t%s\n" "$i" "${percentage}%"
-
-    # printf "%s\t%s\n" "$i" "${MY_ARRAY[$i]}"
 done
+
+tabs 8
 
 echo " "
 echo "Large files"
 echo "$(find ${startdir} -maxdepth ${depth} -type f -printf '%s\t%P\n' | sort -nr | nl | head -5)"
 echo " "
 
-tabs 8
 
 echo "Lastly created files"
 # print lastly created files(w means birthdate and n means file name)
@@ -81,18 +68,11 @@ echo "$(find ${startdir} -maxdepth ${depth} -type f -exec stat -c '%w %n' {} + |
 echo " "
 
 echo "Lastly modified files"
-echo "$(find ${startdir} -maxdepth ${depth} -type f -not -path '*/\.*' -printf '%TY.%Tm.%Td %THh%TM %Ta %P\n' |sort -nr| nl |head -n 5)"
+echo "$(find ${startdir} -maxdepth ${depth} -type f -not -path '*/\.*' -printf '%TY-%Tm-%Td %TH:%TM:%TS %P\n' |sort -nr| nl |head -n 5)"
 echo " "
 
-tabs 4
+# tabs 30
 
-# echo "Dirs with more files"
-# bash count_files ${startdir} ${depth} | sort -nr | nl | head -5
-# echo " "
-
-# echo "Dirs with more dirs"
-# bash count_dirs ${startdir} ${depth} | sort -nr | nl | head -5
-# echo " "
 
 function dirs_with_more_files () {
 
@@ -118,7 +98,7 @@ echo "Dirs with more dirs"
 dirs_with_more_dirs ${startdir} ${depth} | sort -nr | nl | head -5
 echo " "
 
-tabs 8
+# tabs 8
 
 # find largest directories (S means not to include subdir size and d is depth size)
 echo "Largest dirs"
