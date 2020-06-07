@@ -6,7 +6,7 @@ if [ "$#" -eq 0 ]; then
 
 elif [ "$#" -eq 1 ]; then
     startdir="$1"
-    depth=10000
+    depth=64000
 
 else
     startdir="$1"
@@ -15,7 +15,7 @@ fi
 
 
 echo "Monitored directory:" ${startdir}
-echo "Depth:" ${depth}
+echo "Depth:" $2
 echo " "
 
 tabs 12
@@ -51,6 +51,7 @@ echo " "
 echo "Permissions on files"
 echo " "
 
+tabs 2
 # echo "Large files $(find $1 -type f -printf '%s %p\n' | sort -nr | head -5)"
 # echo " "
 
@@ -69,26 +70,32 @@ done
 
 echo " "
 echo "Large files"
-echo "$(find ${startdir} -maxdepth ${depth} -type f -printf '%s\t%P\n' | sort -nr | head -5)"
+echo "$(find ${startdir} -maxdepth ${depth} -type f -printf '%s\t%P\n' | sort -nr | nl | head -5)"
 echo " "
 
 tabs 8
 
 echo "Lastly created files"
-echo "$( find ${startdir} -maxdepth ${depth} -type f -printf "%TY-%Tm-%Td %TH:%TM:%TS\t%P\n" | sort -r | head -n 5)"
+# print lastly created files(w means birthdate and n means file name)
+echo "$(find ${startdir} -maxdepth ${depth} -type f -exec stat -c '%w %n' {} + | sort -r| nl |head -5)"
 echo " "
 
 echo "Lastly modified files"
-echo "$(find ${startdir} -maxdepth ${depth} -type f -not -path '*/\.*' -printf '%TY.%Tm.%Td %THh%TM %Ta %P\n' |sort -nr |head -n 5)"
+echo "$(find ${startdir} -maxdepth ${depth} -type f -not -path '*/\.*' -printf '%TY.%Tm.%Td %THh%TM %Ta %P\n' |sort -nr| nl |head -n 5)"
 echo " "
 
+tabs 4
+
 echo "Dirs with more files"
-bash count_files ${startdir} ${depth} | sort -nr | head -5
+bash count_files ${startdir} ${depth} | sort -nr | nl | head -5
 echo " "
 
 echo "Dirs with more dirs"
-bash count_dirs ${startdir} ${depth} | sort -nr | head -5
+bash count_dirs ${startdir} ${depth} | sort -nr | nl | head -5
 echo " "
 
+tabs 8
+
+# find largest directories (S means not to include subdir size and d is depth size)
 echo "Largest dirs"
-echo "$(du -S -d ${depth} ${startdir} | sort -nr| head -5)"
+echo "$(du -S -d ${depth} ${startdir} | sort -nr| nl | head -5)"
