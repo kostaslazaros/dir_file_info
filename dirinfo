@@ -105,7 +105,7 @@ echo "$(du -S -d ${depth} ${startdir} | sort -nr| nl | head -5)"
 echo " "
 
  # old requirement
-echo "Lastly accessed files"
+echo "Lastly created files"
 # print lastly created files(w means birthdate and n means file name)
 echo "$(find ${startdir} -maxdepth ${depth} -type f -exec stat -c '%w %n' {} + | sort -r| nl |head -5)"
 echo " "
