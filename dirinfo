@@ -64,7 +64,9 @@ echo " "
 
 
 echo "Lastly accessed files"
-# print lastly created files(w means birthdate and n means file name)
+# print lastly created files(x means last access date and n means file name)
+# {} refers to the output of find (whatever "find" actually found)
+# + appends filenames at the end
 echo "$(find ${startdir} -maxdepth ${depth} -type f -exec stat -c '%x %n' {} + | sort -r| nl |head -5)"
 echo " "
 
@@ -97,8 +99,6 @@ echo "Dirs with more dirs (in the dir level)"
 dirs_with_more_dirs ${startdir} ${depth} | sort -nr | nl | head -5
 echo " "
 
-# tabs 8
-
 # find largest directories (S means not to include subdir size and d is depth size)
 echo "Largest dirs (sum of file sizes in the dir level)"
 echo "$(du -S -d ${depth} ${startdir} | sort -nr| nl | head -5)"
@@ -107,5 +107,7 @@ echo " "
  # old requirement
 echo "Lastly created files"
 # print lastly created files(w means birthdate and n means file name)
+# {} refers to the output of find (whatever "find" actually found)
+# + appends filenames at the end
 echo "$(find ${startdir} -maxdepth ${depth} -type f -exec stat -c '%w %n' {} + | sort -r| nl |head -5)"
 echo " "
