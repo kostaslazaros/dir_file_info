@@ -20,8 +20,7 @@ echo " "
 
 tabs 12
 
-# enable options for current shell session
-# shopt -s globstar
+
 FILENO=0
 DIRNO=0
 MY_ARRAY=()
@@ -34,10 +33,13 @@ while read file; do
         index=$(stat -c "%a " "${file}")
         MY_ARRAY[${index}]=$(( MY_ARRAY[${index}] + 1 ))
     fi
+
+# redirects the output of this cmd as single line input to the while loop above
 done <<<$(find ${startdir} -maxdepth ${depth} -name "*")
 
 echo "Number of directories: ${DIRNO}"
 echo "Number of files: ${FILENO}"
+# -d refers to max depth, -h means human readable, f means select only first field
 echo "Total size on disk: $(du ${startdir} -d 0 -h | cut -f1)"
 echo " "
 
@@ -64,9 +66,8 @@ echo " "
 
 
 echo "Lastly accessed files"
-# print lastly created files(x means last access date and n means file name)
-# {} refers to the output of find (whatever "find" actually found)
-# + appends filenames at the end
+# print lastly accessed files(x means last access date and n means file name)
+# {}+ find appends found files at the end of the command (runs like ls cmd)
 echo "$(find ${startdir} -maxdepth ${depth} -type f -exec stat -c '%x %n' {} + | sort -r| nl |head -5)"
 echo " "
 
@@ -90,7 +91,9 @@ dirs_with_more_files ${startdir} ${depth} | sort -nr | nl | head -5
 echo " "
 
 function dirs_with_more_dirs {
+# find all dirs within the first dir
     find $1 -maxdepth $2 -mindepth 1 -type d | while read dir; do
+# for each dir find all subdirectories
          printf "%s \t %s\n" "$(find "$dir" -maxdepth 1 -mindepth 1 -type d | wc -l)" "$dir"
     done
 }
@@ -107,7 +110,6 @@ echo " "
  # old requirement
 echo "Lastly created files"
 # print lastly created files(w means birthdate and n means file name)
-# {} refers to the output of find (whatever "find" actually found)
-# + appends filenames at the end
+# {}+ find appends found files at the end of the command (runs like ls cmd)
 echo "$(find ${startdir} -maxdepth ${depth} -type f -exec stat -c '%w %n' {} + | sort -r| nl |head -5)"
 echo " "
